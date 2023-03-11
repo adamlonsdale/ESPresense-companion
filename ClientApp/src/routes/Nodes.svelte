@@ -1,6 +1,8 @@
 <script lang="ts">
   import { zoomIdentity } from 'd3-zoom';
 
+  import Moveable from "svelte-moveable";
+  let target;
   import { config } from '../lib/stores';
 
   import type { Node } from '../lib/types';
@@ -14,7 +16,9 @@
   $: floorId = $config?.floors[floor]?.id;
   let nodes: Node[] | undefined;
   $: nodes = $config?.nodes?.filter(n => n.floors.includes(floorId));
-  </script>
+</script>
+
+<Moveable target={target} draggable=true edge={false} ></Moveable>
 
 <g transform={transform.toString()}>
 {#if nodes }

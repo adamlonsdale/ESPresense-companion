@@ -19,7 +19,7 @@
   $: radar = $devices?.find(n => n.id == radarId);
   $: r.set(radar?.nodes[n.id] ?? 0);
   let colors : ScaleOrdinal<string, string> = getContext('colors');
-  </script>
+</script>
 
 <path d="M{$xScale(n.point[0])},{$yScale(n.point[1])} m -5,0 5,-5 5,5 -5,5 z" fill={colors(n.id)} />
 <text x='{ $xScale(n.point[0])  + 7}' y='{ $yScale(n.point[1])  + 3.5}' fill='white' font-size='10px'>{n.name}</text>
