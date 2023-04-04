@@ -1,4 +1,4 @@
-﻿using ESPresense.Extensions;
+using ESPresense.Extensions;
 using ESPresense.Models;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.Optimization;

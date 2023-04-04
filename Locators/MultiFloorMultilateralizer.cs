@@ -81,7 +81,7 @@ public class MultiFloorMultilateralizer : ILocate
                 confidence = 1;
                 scenario.Scale = 1;
                 scenario.Location = guess;
-                Log.Error("Error finding location for {0}: {1}", _device, ex.Message);
+                Log.Error("Error finding location for {0}: {1} (multifloor)", _device, ex.Message);
             }
         }
 
