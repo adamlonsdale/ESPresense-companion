@@ -7,12 +7,12 @@ RUN curl -fsSL https://deb.nodesource.com/setup_19.x | bash - && apt-get install
 WORKDIR /App
 
 COPY . ./
-RUN dotnet restore -a $TARGETPLATFORM
 
 RUN echo "I am running on ${BUILDPLATFORM}"
 RUN echo "building for ${TARGETPLATFORM}"
 RUN export TARGETPLATFORM="${TARGETPLATFORM}"
 
+RUN dotnet restore -a $TARGETPLATFORM
 RUN dotnet publish -c Release -a $TARGETPLATFORM -o out
 
 FROM mcr.microsoft.com/dotnet/aspnet:7.0
