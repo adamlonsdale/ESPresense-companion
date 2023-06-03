@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { writable } from 'svelte/store';
 	import { LayerCake, Svg, Html, Canvas } from 'layercake';
-	import { config, devices } from '../lib/stores';
+	import { config, devices } from '$lib/stores';
 	import { scaleOrdinal, schemeCategory10 } from 'd3';
 	import { select } from 'd3-selection';
 	import { zoom, zoomIdentity } from 'd3-zoom';
 	import { setContext } from 'svelte';
 
-	import type { Device } from '../lib/types';
+	import type { Device } from '$lib/types';
 
 	import Rooms from './Rooms.svelte';
 	import Devices from './Devices.svelte';
@@ -23,8 +23,7 @@
 	export let deviceId: string | null = null;
 
 	$: device = $devices.find((d) => d.id === deviceId);
-	$: floor =
-		$config?.floors.find((f) => f.id === floorId) ?? $config?.floors.find((f) => f != null);
+	$: floor = $config?.floors.find((f) => f.id === floorId) ?? $config?.floors.find((f) => f != null);
 	$: bounds = floor?.bounds;
 
 	const handler = zoom()

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { config, devices, history } from './stores';
-	import { goto } from '$app/navigation';
+	import { goto, afterNavigate } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { RadioGroup, RadioItem } from '@skeletonlabs/skeleton';
 
@@ -9,10 +9,15 @@
 	export let tab = 'map';
 
 	$: device = $devices.find((d) => d.id === deviceId);
-	$: floor = $config.floors.find((f) => f.id === floorId);
+	$: floor = $config?.floors.find((f) => f.id === floorId);
+	let previousPage: string = base;
+
+	afterNavigate(({ from }) => {
+		previousPage = from?.url?.pathname || previousPage;
+	});
 
 	function goBack(defaultRoute = base) {
-		goto($history.length >= 2 ? $history[1] : defaultRoute);
+		goto(previousPage || defaultRoute);
 	}
 </script>
 
@@ -22,18 +27,18 @@
 	</svg>
 	<nav class="h-50 text-black">
 		<button on:click={() => goBack()}>
-		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-			<path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
 			</svg>
 		</button>
 		{#if device}
 			<div class="pl-4 px-4 py-1">
-				<h4 class="h4">{device?.name} on {floor?.name}</h4>
+				<h4 class="h4">{device?.name || device?.id} on {floor?.name ?? "Unknown"}</h4>
 			</div>
 		{/if}
 		<RadioGroup active="variant-filled-primary" hover="hover:variant-soft-primary">
 			<RadioItem bind:group={tab} name="Map" value="map">Map</RadioItem>
-			<RadioItem bind:group={tab} name="Details" value="details">Details</RadioItem>
+			<RadioItem bind:group={tab} name="Settings" value="settings">Settings</RadioItem>
 		</RadioGroup>
 	</nav>
 	<svg viewBox="0 0 2 3" aria-hidden="true">
