@@ -92,7 +92,12 @@ public class MultiFloorMultilateralizer : ILocate
 
         var floors = _state.Floors.Values.Where(a => a.Contained(scenario.Location.Z));
         var room = floors.SelectMany(a => a.Rooms.Values).FirstOrDefault(a => a.Polygon?.EnclosesPoint(scenario.Location.ToPoint2D()) ?? false);
-        if (scenario.Room != room) scenario.Room = room;
+
+        if (scenario.Room != room) {
+            scenario.Room = room;
+            scenario.Floor = room?.Floor;
+        }
+
         Log.Debug("New location {0} {1}@{2}", _device, _device.Room?.Name ?? "Unknown", scenario.Location);
         return true;
     }
